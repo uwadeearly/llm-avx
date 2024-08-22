@@ -1,6 +1,10 @@
 #ifndef CONTEXT_HPP
 #define CONTEXT_HPP
 #include <iostream>
+
+#define ALIAGN256(x) ((x / 8) * 8)
+
+
 namespace one {
 enum class Device { CPU, GPU, XPU };
 
