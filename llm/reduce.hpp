@@ -23,6 +23,29 @@ float reduceSum(float* input, uint32_t size) {
   return ret;
 }
 
-// float reduceMax(float* input, uint32_t size) {}
+float reduceMax(float* input, uint32_t size) {
+  __m256 maxVal = _mm256_setzero_ps();
+  uint32_t sizeAlign = ALIAGN256(size);
+  uint32_t sizeRemain = size - sizeAlign;
+  for (uint32_t i = 0; i < sizeAlign; i += 8) {
+    __m256 tmp = _mm256_loadu_ps(input + i);
+    maxVal = _mm256_max_ps(maxVal, tmp);
+  }
+  
+  float one = std::max(maxVal[0], maxVal[1]);
+  float two = std::max(maxVal[2],  maxVal[3]);
+  float three = std::max(maxVal[4],  maxVal[5]);
+  float four = std::max(maxVal[6],  maxVal[7]);
+
+  float five = std::max(one, three);
+  float six = std::max(two, four);
+  
+  float ret = std::max(five, six);
+  
+  for(uint32_t i=0; i<sizeRemain; ++i){
+    ret = std::max(ret, input[sizeAlign+i]);
+  }
+  return ret;
+}
 }  // namespace one
 #endif  // REDUCE_HPP
