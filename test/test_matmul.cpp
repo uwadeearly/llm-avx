@@ -87,8 +87,8 @@ void maxtrixProfiling() {
 
 int main() {
   // testRandom();
-  // testMatmulPro<float>();
-  maxtrixProfiling<float>();
+  testMatmulPro<float>();
+  // maxtrixProfiling<float>();
   // _tile_loadd()
   return 0;
 }
